@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -38,8 +37,8 @@ const CourseTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.courses.map((course) => (
-              <TableRow key={course._id}>
+            {data.courses.map((course, index) => (
+              <TableRow key={index}>
                 <TableCell className="font-medium">
                   {course.courseTitle}
                 </TableCell>

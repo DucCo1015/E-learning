@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import RichTextEditor from "@/pages/RichTextEditor";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -21,7 +21,10 @@ import {
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEditCourseMutation } from "@/features/api/courseApi.js";
+import {
+  useEditCourseMutation,
+  useGetCourseByIdQuery,
+} from "@/features/api/courseApi.js";
 import { toast } from "sonner";
 
 const CourseTab = () => {
@@ -30,6 +33,24 @@ const CourseTab = () => {
   const params = useParams();
   const courseId = params.courseId;
   const [previewThumbnail, setPreviewThumbnail] = useState("");
+  const { data: courseByIdData, isLoading: courseByIdLoading } =
+    useGetCourseByIdQuery(courseId, { refetchOnMountOrArgChange: true });
+  const course = courseByIdData?.course;
+
+  useEffect(() => {
+    if (courseByIdData?.course) {
+      setInput({
+        courseTitle: course.courseTitle,
+        subTitle: course.subTitle,
+        description: course.description,
+        category: course.category,
+        courseLevel: course.courseLevel,
+        courseThumbnail: "",
+        coursePrice: course.coursePrice,
+      });
+    }
+  }, [course]);
+
   const [input, setInput] = useState({
     courseTitle: "",
     subTitle: "",
@@ -86,6 +107,7 @@ const CourseTab = () => {
       toast.error(error.data.message || "Failed to update course");
     }
   }, [isSuccess, error]);
+  if (courseByIdLoading) return <h1>Loading...</h1>;
 
   return (
     <Card className="mx-5">

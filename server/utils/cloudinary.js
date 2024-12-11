@@ -20,12 +20,13 @@ export const uploadMedia = async (file)  => {
  }
 }
 
-export const deleteMedialFormCloudinary = async (publicId) => {
- try {
-   await cloudinary.uploader.destroy(publicId);
- } catch (error) {
-   console.log(error);
- }
+export const deleteMedialFormCloudinary = async () => {
+  try {
+    const publicId = course.courseThumbnail.split("/").pop().split(".")[0];
+    await deleteMedialFormCloudinary(publicId)
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 export const deleteVideoFormCloudinary = async (publicId) => {
@@ -37,18 +38,3 @@ export const deleteVideoFormCloudinary = async (publicId) => {
    }
 }
 
-// export const deleteMedialFormCloudinary = async (publicId) => {
-//  try {
-//   await cloudinary.uploader.destroy(publicId)
-//  } catch (error) {
-//   console.log(error)
-//  }
-// }
-
-// export const deleteVideoFormCloudinary = async (publicId) => {
-//  try {
-//   await cloudinary.uploader.destroy(publicId,{resource_type: "video"})
-//  } catch (error) {
-//   console.log(error)
-//  }
-// }
