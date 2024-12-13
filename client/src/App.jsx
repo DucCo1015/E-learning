@@ -6,12 +6,13 @@ import { RouterProvider } from "react-router";
 import Course from "./pages/student/Course";
 import MyLearning from "./pages/student/Mylearning";
 import Profile from "./pages/student/Profile";
-import Sidebar from "./pages/admin/lecture/Sidebar";
-import Dashboard from "./pages/admin/lecture/Dashboard";
+import Sidebar from "./pages/admin/Sidebar";
+import Dashboard from "./pages/admin/Dashboard";
 import CourseTable from "./pages/admin/course/CourseTable";
 import AddCourse from "./pages/admin/course/AddCourse";
 import EditCourse from "./pages/admin/course/EditCourse";
 import CreateLecture from "./pages/admin/lecture/CreateLecture";
+import EditLecture from "./pages/admin/lecture/EditLecture";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -63,6 +64,10 @@ function App() {
             {
               path: "course/:courseId/lecture",
               element: <CreateLecture />,
+            },
+            {
+              path: "course/:courseId/lecture/:lectureId",
+              element: <EditLecture />,
             },
           ],
         },
