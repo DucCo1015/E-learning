@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import courseRouter from './routers/courseRouter.js'
 import mediaRouter from './routers/mediaRouter.js'
+import purchaseRouter from './routers/purchaseRouter.js'
 dotenv.config({});
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(cors({
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/course", courseRouter);
 app.use("/api/v1/media", mediaRouter);
+app.use("/api/v1/purchase",purchaseRouter);
 
 // app.get("/home", (_, res) => {
 //  res.status(200).json({success: true, message: 'Hello I am  coming from backend '})

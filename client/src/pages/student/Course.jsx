@@ -1,10 +1,14 @@
 import React from "react";
 import Courses from "./Courses";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useGetPublishedCourseQuery } from "@/features/api/courseApi.js";
 
 const Course = () => {
-  const course = [1, 2, 3, 4, 5, 6];
-  const isLoading = false;
+  const { data, isLoading, isError } = useGetPublishedCourseQuery();
+
+  if (isError) return <h1>Some error occurred white fetching courses</h1>;
+
+  console.log(data);
   return (
     <div className="mt-5">
       <div className="max-w-7xl mx-auto gap-8">
@@ -14,7 +18,10 @@ const Course = () => {
             ? Array.from({ length: 8 }).map((_, index) => (
                 <CourseSkeleton key={index} />
               ))
-            : course.map((course, index) => <Courses key={index} />)}
+            : data?.courses &&
+              data.courses.map((course, index) => (
+                <Courses key={index} course={course} />
+              ))}
         </div>
       </div>
     </div>

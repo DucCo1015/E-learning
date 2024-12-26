@@ -16,6 +16,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import {
   useEditLectureMutation,
+  useGetLectureByIdQuery,
   useRemoveLectureMutation,
 } from "@/features/api/courseApi.js";
 import { Loader2 } from "lucide-react";
@@ -36,6 +37,17 @@ const LectureTab = () => {
     removeLecture,
     { data: removeData, isLoading: removeLoading, isSuccess: removeSuccess },
   ] = useRemoveLectureMutation();
+
+  const { data: lectureData } = useGetLectureByIdQuery(lectureId);
+  const lecture = lectureData?.lecture;
+
+  useEffect(() => {
+    if (lecture) {
+      setLectureTitle(lectureTitle);
+      setIsFree(lecture.isPreviewFree);
+      setUploadVideoInfo(lecture.videoInfo);
+    }
+  }, [lecture]);
 
   const MEDIA_API = "http://localhost:8000/api/v1/media";
   const fileChangeHandler = async (e) => {
@@ -147,7 +159,11 @@ const LectureTab = () => {
           />
 
           <div className="flex items-center space-x-2 my-5">
-            <Switch id="airplane-mode" />
+            <Switch
+              checked={isFree}
+              onCheckedChange={setIsFree}
+              id="airplane-mode"
+            />
             <Label htmlFor="airplane-mode">Is this video FREE</Label>
           </div>
 
